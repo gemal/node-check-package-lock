@@ -12,7 +12,7 @@ describe('index.js', function() {
 
     function runTest(args, expectedExitCode, expectedOutput, done) {
         const command = `node ${path.join(__dirname, '../index.js')} ${args.join(' ')}`;
-        exec(command, { cwd: path.join(__dirname, '../') }, (error, stdout, stderr) => {
+        exec(command, { cwd: path.join(__dirname, '../') }, (error, stdout) => {
             if (error) {
                 expect(error.code).to.equal(expectedExitCode);
             } else {
