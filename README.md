@@ -26,7 +26,7 @@ check-package-lock --folder 'nodefolder'
 4 = Folder specified is not a folder
 ```
 
-## Continuous Integration
+## CI - Continuous Integration
 check-package-lock can be used in CI environments to check your package-lock.json file before merging a pull request
 
 ## Badges

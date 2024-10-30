@@ -1,7 +1,7 @@
 {
     "name": "check-package-lock",
     "version": "1.10.0",
-    "description": "Checks the package-lock.json file for http:// links",
+    "description": "Checks the package-lock.json file for insecure http:// links",
     "main": "index.js",
     "repository": {
         "type": "git",
@@ -10,6 +10,7 @@
     "scripts": {
         "test": "mocha"
     },
+    "type": "module",
     "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
     "license": "MIT",
     "bin": {
@@ -30,18 +31,18 @@
     ],
     "homepage": "https://github.com/gemal/node-check-package-lock",
     "dependencies": {
-        "commander": "^9.0.0"
+        "commander": "^12.1.0"
     },
     "devDependencies": {
-        "chai": "^4.3.4",
+        "chai": "^5.1.2",
         "child_process": "^1.0.2",
         "codecov": "^3.8.2",
         "eslint": "^8.8.0",
         "eslint-config-google": "^0.14.0",
         "expect": "^29.2.2",
-        "lintspaces-cli": "^0.7.1",
+        "lintspaces-cli": "^1.0.0",
         "mocha": "^10.0.0",
-        "nyc": "^15.1.0",
+        "nyc": "^17.1.0",
         "snyk": "^1.594.0"
     }
 }
