@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # Use node image
-      - image: cimg/node:latest
+      - image: cimg/node:lts
 
     # code folder
     working_directory: ~/repo
