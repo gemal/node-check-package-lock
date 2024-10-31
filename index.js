@@ -2,9 +2,14 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const {program} = require('commander');
+import fs from 'fs';
+import path from 'path';
+import { program } from 'commander';
+import { fileURLToPath } from 'url';
+
+// Define __filename and __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Check a folder.
@@ -17,7 +22,7 @@ function checkFolder() {
     }
     const pack = fullpath + 'package-lock.json';
     if (fs.existsSync(pack)) {
-        const filecontent = fs.readFileSync(pack, {encoding: 'utf-8'});
+        const filecontent = fs.readFileSync(pack, { encoding: 'utf-8' });
         if (filecontent.indexOf('http://registry.npmjs.org') > -1) { // lgtm [js/incomplete-url-substring-sanitization]
             console.log(pack + ' is NOT OK. It contains references to http://registry.npmjs.org');
             console.log('In order to fix this do:');
@@ -31,13 +36,13 @@ function checkFolder() {
             return 0;
         }
     } else {
-        console.log(pack + ' does not exists');
+        console.log(pack + ' does not exist');
         return 2;
     }
 }
 
 program
-    .version(require('./package.json').version)
+    .version(JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'))).version)
     .description('Checks the package-lock.json file for http:// links')
     .option('-f, --folder <folder>', 'Folder with package-lock.json file')
     .parse(process.argv);
@@ -54,7 +59,7 @@ if (options.folder) {
             process.exitCode = 4;
         }
     } else {
-        console.log('Oops! Folder does not exists: ' + options.folder);
+        console.log('Oops! Folder does not exist: ' + options.folder);
         process.exitCode = 3;
     }
 } else {
