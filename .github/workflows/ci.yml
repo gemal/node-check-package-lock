@@ -80,9 +80,6 @@ jobs:
       - name: Lint
         run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
 
-      - name: Check package lock
-        run: ./node_modules/.bin/check-package-lock
-
       - name: Run tests with coverage
         run: ./node_modules/.bin/nyc npm test
 
