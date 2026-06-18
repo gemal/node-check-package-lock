@@ -31,8 +31,6 @@ check-package-lock can be used in CI environments to check your package-lock.jso
 
 ## Badges
 
-[![CircleCI](https://circleci.com/gh/gemal/node-check-package-lock.svg?style=svg)](https://circleci.com/gh/gemal/node-check-package-lock)
-
 [![codecov](https://codecov.io/gh/gemal/node-check-package-lock/branch/master/graph/badge.svg)](https://codecov.io/gh/gemal/node-check-package-lock)
 
 [![StyleCI](https://github.styleci.io/repos/183420925/shield)](https://github.styleci.io/repos/183420925)
