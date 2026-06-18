@@ -5,13 +5,13 @@
     "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/gemal/node-check-package-lock"
+        "url": "https://github.com/gemal/node-check-package-lock.git"
     },
     "scripts": {
         "test": "mocha"
     },
     "type": "module",
-    "author": "Henrik Gemal <henrik@gemal.dk> (http://gemal.dk/)",
+    "author": "Henrik Gemal <henrik@gemal.dk> (https://gemal.dk/)",
     "license": "MIT",
     "bin": {
         "check-package-lock": "index.js"
@@ -37,13 +37,10 @@
         "@eslint/js": "^9.13.0",
         "chai": "^5.1.2",
         "child_process": "^1.0.2",
-        "codecov": "^3.8.2",
         "eslint": "^9.13.0",
         "expect": "^29.2.2",
         "globals": "^15.11.0",
-        "lintspaces-cli": "^1.0.0",
         "mocha": "^10.0.0",
-        "nyc": "^17.1.0",
-        "snyk": "^1.594.0"
+        "nyc": "^17.1.0"
     }
 }
