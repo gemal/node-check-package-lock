@@ -35,7 +35,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.13.0",
-        "chai": "^5.1.2",
+        "chai": "^6.2.2",
         "child_process": "^1.0.2",
         "eslint": "^9.13.0",
         "expect": "^29.2.2",
