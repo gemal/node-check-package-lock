@@ -3,9 +3,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { program } from 'commander';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function checkFolder(folder) {
     const packPath = folder ? path.join(folder, 'package-lock.json') : 'package-lock.json';
@@ -28,7 +25,7 @@ function checkFolder(folder) {
 }
 
 program
-    .version(JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'))).version)
+    .version(JSON.parse(fs.readFileSync(path.join(import.meta.dirname, 'package.json'))).version)
     .description('Checks the package-lock.json file for http:// links')
     .option('-f, --folder <folder>', 'Folder with package-lock.json file')
     .parse(process.argv);
