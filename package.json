@@ -34,7 +34,7 @@
         "commander": "^12.1.0"
     },
     "devDependencies": {
-        "@eslint/js": "^9.13.0",
+        "@eslint/js": "^10.0.1",
         "chai": "^6.2.2",
         "child_process": "^1.0.2",
         "eslint": "^9.13.0",
