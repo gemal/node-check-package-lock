@@ -1,44 +1,30 @@
 #!/usr/bin/env node
 
-'use strict';
-
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { program } from 'commander';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 
-// Define __filename and __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/**
- * Check a folder.
- * @return {number}
- */
-function checkFolder() {
-    let fullpath = '';
-    if (options.folder) {
-        fullpath = options.folder + path.sep;
-    }
-    const pack = fullpath + 'package-lock.json';
-    if (fs.existsSync(pack)) {
-        const filecontent = fs.readFileSync(pack, { encoding: 'utf-8' });
-        if (filecontent.indexOf('http://registry.npmjs.org') > -1) { // lgtm [js/incomplete-url-substring-sanitization]
-            console.log(pack + ' is NOT OK. It contains references to http://registry.npmjs.org');
-            console.log('In order to fix this do:');
-            console.log('- Delete the package-lock.json file');
-            console.log('- Delete the node_modules folder');
-            console.log('- Run <npm cache clean --force>');
-            console.log('- Run <npm install>');
-            return 1;
-        } else {
-            console.log(pack + ' is OK');
-            return 0;
-        }
-    } else {
-        console.log(pack + ' does not exist');
+function checkFolder(folder) {
+    const packPath = folder ? path.join(folder, 'package-lock.json') : 'package-lock.json';
+    if (!fs.existsSync(packPath)) {
+        console.log(`${packPath} does not exist`);
         return 2;
     }
+    const filecontent = fs.readFileSync(packPath, { encoding: 'utf-8' });
+    if (/"http:\/\/registry\.npmjs\.org[/"']/.test(filecontent)) {
+        console.log(`${packPath} is NOT OK. It contains references to http://registry.npmjs.org`);
+        console.log('In order to fix this do:');
+        console.log('- Delete the package-lock.json file');
+        console.log('- Delete the node_modules folder');
+        console.log('- Run <npm cache clean --force>');
+        console.log('- Run <npm install>');
+        return 1;
+    }
+    console.log(`${packPath} is OK`);
+    return 0;
 }
 
 program
@@ -49,20 +35,15 @@ program
 
 const options = program.opts();
 if (options.folder) {
-    if (fs.existsSync(options.folder)) {
-        const stats = fs.statSync(options.folder);
-        if (stats.isDirectory()) {
-            const err = checkFolder();
-            process.exitCode = err;
-        } else {
-            console.log('Oops! Folder is not a real folder: ' + options.folder);
-            process.exitCode = 4;
-        }
-    } else {
-        console.log('Oops! Folder does not exist: ' + options.folder);
+    if (!fs.existsSync(options.folder)) {
+        console.log(`Oops! Folder does not exist: ${options.folder}`);
         process.exitCode = 3;
+    } else if (!fs.statSync(options.folder).isDirectory()) {
+        console.log(`Oops! Folder is not a real folder: ${options.folder}`);
+        process.exitCode = 4;
+    } else {
+        process.exitCode = checkFolder(options.folder);
     }
 } else {
-    const err = checkFolder();
-    process.exitCode = err;
+    process.exitCode = checkFolder();
 }

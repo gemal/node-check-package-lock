@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-import path from 'path';
-import { exec } from "node:child_process";
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { exec } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
-// Define __filename and __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('index.js', function() {
     this.timeout(8000);
@@ -13,16 +11,14 @@ describe('index.js', function() {
     function runTest(args, expectedExitCode, expectedOutput, done) {
         const command = `node ${path.join(__dirname, '../index.js')} ${args.join(' ')}`;
         exec(command, { cwd: path.join(__dirname, '../') }, (error, stdout) => {
-            if (error) {
-                expect(error.code).to.equal(expectedExitCode);
-            } else {
-                expect(stdout).to.match(expectedOutput);
-            }
+            const exitCode = error ? error.code : 0;
+            expect(exitCode).to.equal(expectedExitCode);
+            expect(stdout).to.match(expectedOutput);
             done();
         });
     }
 
-    it('should exit 1 having problems', function(done) {
+    it('should exit 1 having problems in test1', function(done) {
         runTest(['--folder', 'test/test1'], 1, /package-lock.json is NOT OK/, done);
     });
 
@@ -38,19 +34,19 @@ describe('index.js', function() {
         runTest([], 0, /package-lock.json is OK/, done);
     });
 
-    it('should exit 1 having problems', function(done) {
+    it('should exit 1 having problems in test3', function(done) {
         runTest(['--folder', 'test/test3'], 1, /package-lock.json is NOT OK/, done);
     });
 
-    it('should exit 1 having problems with no file', function(done) {
-        runTest(['--folder', 'test'], 2, /package-lock.json does not exists/, done);
+    it('should exit 2 having problems with no file', function(done) {
+        runTest(['--folder', 'test'], 2, /package-lock.json does not exist/, done);
     });
 
     it('should exit 3 if folder does not exist', function(done) {
-        runTest(['--folder', '404'], 3, /Oops! Folder does not exists: 404\n/, done);
+        runTest(['--folder', '404'], 3, /Oops! Folder does not exist: 404/, done);
     });
 
     it('should exit 4 if folder is not a folder', function(done) {
-        runTest(['--folder', 'test/index.js'], 4, /Oops! Folder is not a real folder: test\/index.js\n/, done);
+        runTest(['--folder', 'test/index.js'], 4, /Oops! Folder is not a real folder: test\/index.js/, done);
     });
 });
