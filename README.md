@@ -37,8 +37,6 @@ check-package-lock can be used in CI environments to check your package-lock.jso
 
 [![Known Vulnerabilities](https://snyk.io/test/github/gemal/node-check-package-lock/badge.svg)](https://snyk.io/test/github/gemal/node-check-package-lock)
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/gemal/node-check-package-lock.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/gemal/node-check-package-lock/alerts/)
-
 [![CodeFactor](https://www.codefactor.io/repository/github/gemal/node-check-package-lock/badge)](https://www.codefactor.io/repository/github/gemal/node-check-package-lock)
 
 [![DeepScan grade](https://deepscan.io/api/teams/14204/projects/17307/branches/392368/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=14204&pid=17307&bid=392368)
