@@ -36,12 +36,10 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "c8": "^11.0.0",
         "chai": "^6.2.2",
-        "child_process": "^1.0.2",
         "eslint": "^10.5.0",
-        "expect": "^30.4.1",
         "globals": "^17.6.0",
-        "mocha": "^11.7.6",
-        "nyc": "^18.0.0"
+        "mocha": "^11.7.6"
     }
 }
