@@ -16,7 +16,7 @@ jobs:
     environment: Development
     permissions:
       contents: read
-      security-events: write
+      security-events: write # to report vulnerabilities
 
     steps:
       - name: Harden Runner
