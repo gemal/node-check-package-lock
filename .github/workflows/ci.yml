@@ -79,7 +79,7 @@ jobs:
         # https://github.com/AODocs/check-eol/releases
 
       - name: Lint
-        run: ./node_modules/.bin/eslint '*.js' 'test/*.js'
+        run: npm run eslint
 
       - name: Run tests with coverage
         run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha
