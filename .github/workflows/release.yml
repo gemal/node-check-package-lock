@@ -96,7 +96,7 @@ jobs:
         run: |
           npm version patch -m "chore: release %s [skip ci]"
           VERSION=$(node -p "require('./package.json').version")
-          echo "version=v${VERSION}" >> $GITHUB_OUTPUT
+          echo "version=v${VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Push version bump
         run: git push --follow-tags
