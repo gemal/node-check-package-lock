@@ -39,6 +39,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run actionlint
+        uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
+        # https://hub.docker.com/r/rhysd/actionlint/tags
+        with:
+          args: -color -verbose
+
       - name: Run CVE Lite CLI
         uses: OWASP/cve-lite-cli@b4a69139a2f62ec3a9a85782c146ff702055d7f2 # v1.23.1
         # https://github.com/OWASP/cve-lite-cli/releases
