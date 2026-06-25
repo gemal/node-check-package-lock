@@ -88,7 +88,7 @@ jobs:
         run: npm run eslint
 
       - name: Run tests with coverage
-        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha
+        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=test-results.xml
 
       - name: Generate coverage report
         run: ./node_modules/.bin/c8 report --reporter=lcov
@@ -98,6 +98,16 @@ jobs:
         # https://github.com/codecov/codecov-action/releases
         with:
           files: coverage/lcov.info
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        # https://github.com/codecov/test-results-action/releases
+        with:
+          files: test-results.xml
           fail_ci_if_error: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
