@@ -102,6 +102,5 @@ jobs:
         with:
           files: coverage/lcov.info
           fail_ci_if_error: true
-          report_type: test_results
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
