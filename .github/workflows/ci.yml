@@ -59,10 +59,11 @@ jobs:
           cache: npm
 
       - name: Install safe-chain
-        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/${{ env.SAFECHAIN_VERSION }}/download/install-safe-chain.sh | sh -s -- --ci
+        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/${SAFECHAIN_VERSION}/download/install-safe-chain.sh | sh -s -- --ci
         env:
           # https://github.com/AikidoSec/safe-chain/releases
           SAFECHAIN_VERSION: 1.5.10
+        shell: bash
 
       # this must fail if safe-chain is working
       - name: Test safe-chain
