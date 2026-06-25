@@ -59,7 +59,10 @@ jobs:
           cache: npm
 
       - name: Install safe-chain
-        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/latest/download/install-safe-chain.sh | sh -s -- --ci
+        run: curl --fail --silent --show-error --retry 3 --location https://github.com/AikidoSec/safe-chain/releases/${{ env.SAFECHAIN_VERSION }}/download/install-safe-chain.sh | sh -s -- --ci
+        env:
+          # https://github.com/AikidoSec/safe-chain/releases
+          SAFECHAIN_VERSION: 1.5.10
 
       # this must fail if safe-chain is working
       - name: Test safe-chain
@@ -99,15 +102,6 @@ jobs:
         with:
           files: coverage/lcov.info
           fail_ci_if_error: true
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        # https://github.com/codecov/test-results-action/releases
-        with:
-          files: test-results.xml
-          fail_ci_if_error: true
+          report_type: test_results
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
