@@ -46,7 +46,7 @@ jobs:
           args: -color -verbose
 
       - name: Run CVE Lite CLI
-        uses: OWASP/cve-lite-cli@97546a6e88f381bc77233dda58c5fdef375c312d # v1.24.0
+        uses: OWASP/cve-lite-cli@2eed959b8641042472d2810444393b88d5454e62 # v1.25.0
         # https://github.com/OWASP/cve-lite-cli/releases
         with:
           fail-on: critical
@@ -58,20 +58,11 @@ jobs:
           node-version: "lts/*"
           cache: npm
 
-      - name: Install safe-chain
-        run: curl --fail --silent --show-error --retry 3 --location "https://github.com/AikidoSec/safe-chain/releases/download/${SAFECHAIN_VERSION}/install-safe-chain.sh" | sh -s -- --ci
-        env:
-          # https://github.com/AikidoSec/safe-chain/releases
-          SAFECHAIN_VERSION: 1.5.11
-
-      # this must fail if safe-chain is working
-      - name: Test safe-chain
-        run: |
-          npm safe-chain-verify
-          ! npm install safe-chain-test
+      - name: Install and verify safe-chain
+        uses: ./.github/actions/safe-chain
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
@@ -91,7 +82,7 @@ jobs:
         run: npm run eslint
 
       - name: Run tests with coverage
-        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=test-results.xml
+        run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=coverage/junit.xml
 
       - name: Generate coverage report
         run: ./node_modules/.bin/c8 report --reporter=lcov
@@ -102,5 +93,15 @@ jobs:
         with:
           files: coverage/lcov.info
           fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload Test results to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        # https://github.com/codecov/codecov-action/releases
+        with:
+          files: coverage/junit.xml
+          fail_ci_if_error: true
+          report_type: test_results
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
