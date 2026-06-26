@@ -31,6 +31,8 @@ check-package-lock can be used in CI environments to check your package-lock.jso
 
 ## Badges
 
+[![Release](https://github.com/gemal/node-check-package-lock/actions/workflows/release.yml/badge.svg)](https://github.com/gemal/node-check-package-lock/actions/workflows/release.yml)
+
 [![codecov](https://codecov.io/gh/gemal/node-check-package-lock/branch/master/graph/badge.svg)](https://codecov.io/gh/gemal/node-check-package-lock)
 
 [![StyleCI](https://github.styleci.io/repos/183420925/shield)](https://github.styleci.io/repos/183420925)
@@ -38,5 +40,3 @@ check-package-lock can be used in CI environments to check your package-lock.jso
 [![Known Vulnerabilities](https://snyk.io/test/github/gemal/node-check-package-lock/badge.svg)](https://snyk.io/test/github/gemal/node-check-package-lock)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/gemal/node-check-package-lock/badge)](https://www.codefactor.io/repository/github/gemal/node-check-package-lock)
-
-[![DeepScan grade](https://deepscan.io/api/teams/14204/projects/17307/branches/392368/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=14204&pid=17307&bid=392368)
