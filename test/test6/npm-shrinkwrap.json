@@ -1,11 +1,11 @@
 {
-    "name": "test1",
+    "name": "test6",
     "version": "1.0.0",
     "lockfileVersion": 3,
     "requires": true,
     "packages": {
         "": {
-            "name": "test1",
+            "name": "test6",
             "version": "1.0.0",
             "dependencies": {
                 "foo": "^1.0.0"

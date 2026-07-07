@@ -1,18 +1,30 @@
 name: Install and verify safe-chain
-description: Installs safe-chain and verifies it is working correctly
+description: Installs safe-chain (checksum-verified) and verifies it is working correctly
 
 runs:
   using: composite
   steps:
     - name: Install safe-chain
       shell: bash
-      run: curl --fail --silent --show-error --retry 3 --location "https://github.com/AikidoSec/safe-chain/releases/download/${SAFECHAIN_VERSION}/install-safe-chain.sh" | sh -s -- --ci
+      # Download to a file and verify a pinned SHA-256 before executing:
+      # release tags and assets are mutable, so piping curl straight to sh
+      # would run whatever the release serves at that moment.
+      run: |
+        SCRIPT="$(mktemp -d)/install-safe-chain.sh"
+        curl --fail --silent --show-error --retry 3 --location --output "$SCRIPT" \
+          "https://github.com/AikidoSec/safe-chain/releases/download/${SAFECHAIN_VERSION}/install-safe-chain.sh"
+        echo "${SAFECHAIN_SHA256}  ${SCRIPT}" | sha256sum --check --quiet
+        sh "$SCRIPT" --ci
+        rm -f "$SCRIPT"
       env:
         SAFECHAIN_VERSION: 1.5.12
+        # sha256sum of install-safe-chain.sh for the version above;
+        # recompute when bumping SAFECHAIN_VERSION
+        SAFECHAIN_SHA256: e40995d546160bf18788dbfc6e9a4a765152abeca92014adf85102cf6b13d890
 
     - name: Test safe-chain
       shell: bash
       # this must fail if safe-chain is working
-      run: |
+      run: | # zizmor: ignore[adhoc-packages]
         npm safe-chain-verify
         ! npm install safe-chain-test
