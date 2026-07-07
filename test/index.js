@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import path from 'node:path';
-import { exec } from 'node:child_process';
+import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -9,8 +9,8 @@ describe('index.js', function() {
     this.timeout(8000);
 
     function runTest(args, expectedExitCode, expectedOutput, done) {
-        const command = `node ${path.join(__dirname, '../index.js')} ${args.join(' ')}`;
-        exec(command, { cwd: path.join(__dirname, '../') }, (error, stdout) => {
+        const scriptArgs = [path.join(__dirname, '../index.js'), ...args];
+        execFile(process.execPath, scriptArgs, { cwd: path.join(__dirname, '../') }, (error, stdout) => {
             const exitCode = error ? error.code : 0;
             expect(exitCode).to.equal(expectedExitCode);
             expect(stdout).to.match(expectedOutput);
