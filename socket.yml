@@ -1,0 +1,6 @@
+version: 2
+
+# test fixtures are synthetic lockfiles used to test this tool;
+# they do not describe real dependencies of this project
+projectIgnorePaths:
+  - "test/**"
