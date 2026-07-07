@@ -6,9 +6,6 @@ runs:
   steps:
     - name: Install safe-chain
       shell: bash
-      # Download to a file and verify a pinned SHA-256 before executing:
-      # release tags and assets are mutable, so piping curl straight to sh
-      # would run whatever the release serves at that moment.
       run: |
         SCRIPT="$(mktemp -d)/install-safe-chain.sh"
         curl --fail --silent --show-error --retry 3 --location --output "$SCRIPT" \
@@ -18,9 +15,8 @@ runs:
         rm -f "$SCRIPT"
       env:
         SAFECHAIN_VERSION: 1.5.12
-        # sha256sum of install-safe-chain.sh for the version above;
-        # recompute when bumping SAFECHAIN_VERSION
         SAFECHAIN_SHA256: e40995d546160bf18788dbfc6e9a4a765152abeca92014adf85102cf6b13d890
+        # https://github.com/AikidoSec/safe-chain/releases
 
     - name: Test safe-chain
       shell: bash
