@@ -6,8 +6,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        describe: "readonly",
-        it: "readonly",
+        ...globals.mocha,
       }
     }
   },
