@@ -3,6 +3,12 @@
     "version": "1.14.6",
     "description": "Checks the package-lock.json file for insecure http:// links",
     "main": "index.js",
+    "files": [
+        "index.js"
+    ],
+    "engines": {
+        "node": ">=20.11"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/gemal/node-check-package-lock.git"
@@ -33,6 +39,10 @@
     "homepage": "https://github.com/gemal/node-check-package-lock",
     "dependencies": {
         "commander": "^15.0.0"
+    },
+    "overrides": {
+        "diff": "^8.0.3",
+        "serialize-javascript": "^7.0.5"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",

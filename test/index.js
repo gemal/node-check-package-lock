@@ -38,6 +38,22 @@ describe('index.js', function() {
         runTest(['--folder', 'test/test3'], 1, /package-lock.json is NOT OK/, done);
     });
 
+    it('should exit 1 detecting http links on non-npmjs registries', function(done) {
+        runTest(['--folder', 'test/test3'], 1, /http:\/\/registry\.yarnpkg\.com/, done);
+    });
+
+    it('should exit 1 on missing integrity checksums in test4', function(done) {
+        runTest(['--folder', 'test/test4'], 1, /without an integrity checksum/, done);
+    });
+
+    it('should exit 5 on invalid JSON in test5', function(done) {
+        runTest(['--folder', 'test/test5'], 5, /could not be read as JSON/, done);
+    });
+
+    it('should exit 1 having problems in npm-shrinkwrap.json in test6', function(done) {
+        runTest(['--folder', 'test/test6'], 1, /npm-shrinkwrap.json is NOT OK/, done);
+    });
+
     it('should exit 2 having problems with no file', function(done) {
         runTest(['--folder', 'test'], 2, /package-lock.json does not exist/, done);
     });

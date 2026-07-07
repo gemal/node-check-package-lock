@@ -1,8 +1,10 @@
 # check-package-lock
-Checks the package-lock.json file for http:// links
+Checks the package-lock.json file for insecure http:// links and missing integrity checksums
 
 ## What does it do?
-check-package-lock can check if the package-lock.json file contain insecure http:// links
+check-package-lock parses the package-lock.json (and npm-shrinkwrap.json) file and checks that:
+- no package is downloaded over an insecure http:// link (any registry, not just registry.npmjs.org)
+- every package downloaded over https:// has an integrity checksum, so tampering is detected
 
 ## Usage
 To check the package-lock.json file in the current folder:
@@ -24,6 +26,7 @@ check-package-lock --folder 'nodefolder'
 2 = package-lock.json was not found
 3 = Folder specified does not exists
 4 = Folder specified is not a folder
+5 = package-lock.json could not be read or is not valid JSON
 ```
 
 ## CI - Continuous Integration
