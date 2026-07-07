@@ -19,9 +19,9 @@ jobs:
     name: Analyze JavaScript
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: read # to checkout the repository
       security-events: write # to upload analysis results
-      actions: read
+      actions: read # to read the workflow metadata for the analysis
 
     steps:
       - name: Harden Runner
