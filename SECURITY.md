@@ -18,7 +18,7 @@ Please do not report security vulnerabilities through public GitHub issues.
 Instead, use one of these private channels:
 
 - **GitHub private vulnerability reporting** (preferred):
-  [Report a vulnerability](https://github.com/gemal/node-check-package-lock/security/advisories/new)
+    [Report a vulnerability](https://github.com/gemal/node-check-package-lock/security/advisories/new)
 - **Email**: henrik@gemal.dk
 
 Please include:
