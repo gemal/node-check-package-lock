@@ -26,7 +26,32 @@ jobs:
         uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
         # https://github.com/step-security/harden-runner/releases
         with:
-          egress-policy: audit
+          # if a step starts failing with a blocked connection, the harden-runner
+          # step summary / annotations show the endpoint to add here
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            codeload.github.com:443
+            ghcr.io:443
+            pkg-containers.githubusercontent.com:443
+            objects.githubusercontent.com:443
+            raw.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
+            *.actions.githubusercontent.com:443
+            *.blob.core.windows.net:443
+            nodejs.org:443
+            registry.npmjs.org:443
+            malware-list.aikido.dev:443
+            api.snyk.io:443
+            downloads.snyk.io:443
+            api.osv.dev:443
+            services.nvd.nist.gov:443
+            cli.codecov.io:443
+            api.codecov.io:443
+            ingest.codecov.io:443
+            storage.googleapis.com:443
+            keybase.io:443
 
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -41,6 +66,13 @@ jobs:
           persona: pedantic
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up editorconfig-checker
+        uses: editorconfig-checker/action-editorconfig-checker@840e866d93b8e032123c23bac69dece044d4d84c # v2.2.0
+        # https://github.com/editorconfig-checker/action-editorconfig-checker/releases
+
+      - name: Run editorconfig-checker
+        run: editorconfig-checker
 
       - name: Run actionlint
         uses: docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 # v1.7.12
@@ -75,16 +107,11 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Check line endings
-        uses: fernandrone/linelint@7907a5dca0c28ea7dd05c6d8d8cacded713aca11 # 0.0.6
-        # https://github.com/fernandrone/linelint/releases
-
-      - name: Check EOL
-        uses: AODocs/check-eol@88fd9052e8ea211254a4de371011026603a329dc # v1.1
-        # https://github.com/AODocs/check-eol/releases
-
       - name: Lint
         run: npm run eslint
+
+      - name: Check package lock
+        run: node index.js
 
       - name: Run tests with coverage
         run: ./node_modules/.bin/c8 ./node_modules/.bin/mocha --reporter xunit --reporter-option output=coverage/junit.xml
