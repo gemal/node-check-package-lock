@@ -39,4 +39,4 @@ jobs:
           persist-credentials: false
 
       - name: Run semgrep ci
-        run: semgrep ci --no-suppress-errors --verbose
+        run: semgrep ci --no-suppress-errors
