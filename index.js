@@ -78,7 +78,7 @@ function checkFolder(folder) {
 }
 
 program
-    .version(JSON.parse(fs.readFileSync(path.join(import.meta.dirname, 'package.json'))).version)
+    .version(JSON.parse(fs.readFileSync(new URL('./package.json', import.meta.url))).version)
     .description('Checks the package-lock.json file for insecure http:// links and missing integrity checksums')
     .option('-f, --folder <folder>', 'Folder with package-lock.json file')
     .parse(process.argv);
