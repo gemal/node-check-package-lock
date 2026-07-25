@@ -6,6 +6,11 @@ import { program } from 'commander';
 
 const LOCK_FILES = ['package-lock.json', 'npm-shrinkwrap.json'];
 
+// strip control characters so malicious content cannot inject
+// terminal escape sequences into the output
+// eslint-disable-next-line no-control-regex
+const sanitize = (text) => text.replace(/[\u0000-\u001f\u007f-\u009f]/g, '');
+
 function collectIssues(node, name, issues) {
     if (node === null || typeof node !== 'object') {
         return;
@@ -34,23 +39,23 @@ function checkFile(filePath) {
     try {
         data = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf-8' }));
     } catch (err) {
-        console.log(`${filePath} could not be read as JSON: ${err.message}`);
+        console.log(`${sanitize(filePath)} could not be read as JSON: ${sanitize(err.message)}`);
         return 5;
     }
     const issues = { insecure: [], missingIntegrity: [] };
     collectIssues(data, '', issues);
     if (issues.insecure.length === 0 && issues.missingIntegrity.length === 0) {
-        console.log(`${filePath} is OK`);
+        console.log(`${sanitize(filePath)} is OK`);
         return 0;
     }
-    console.log(`${filePath} is NOT OK.`);
+    console.log(`${sanitize(filePath)} is NOT OK.`);
     if (issues.insecure.length > 0) {
         console.log(`It contains ${issues.insecure.length} insecure http:// link(s):`);
         for (const issue of issues.insecure) {
-            console.log(`- ${issue}`);
+            console.log(`- ${sanitize(issue)}`);
         }
         console.log('In order to fix this do:');
-        console.log(`- Delete the ${path.basename(filePath)} file`);
+        console.log(`- Delete the ${sanitize(path.basename(filePath))} file`);
         console.log('- Delete the node_modules folder');
         console.log('- Run <npm cache clean --force>');
         console.log('- Run <npm install>');
@@ -58,7 +63,7 @@ function checkFile(filePath) {
     if (issues.missingIntegrity.length > 0) {
         console.log(`It contains ${issues.missingIntegrity.length} download link(s) without an integrity checksum:`);
         for (const issue of issues.missingIntegrity) {
-            console.log(`- ${issue}`);
+            console.log(`- ${sanitize(issue)}`);
         }
         console.log('Run <npm install> with a current npm version to regenerate the integrity checksums');
     }
@@ -71,7 +76,7 @@ function checkFolder(folder) {
         .filter((file) => fs.existsSync(file));
     if (files.length === 0) {
         const packPath = folder ? path.join(folder, 'package-lock.json') : 'package-lock.json';
-        console.log(`${packPath} does not exist`);
+        console.log(`${sanitize(packPath)} does not exist`);
         return 2;
     }
     return files.reduce((code, file) => Math.max(code, checkFile(file)), 0);
@@ -86,10 +91,10 @@ program
 const options = program.opts();
 if (options.folder) {
     if (!fs.existsSync(options.folder)) {
-        console.log(`Oops! Folder does not exist: ${options.folder}`);
+        console.log(`Oops! Folder does not exist: ${sanitize(options.folder)}`);
         process.exitCode = 3;
     } else if (!fs.statSync(options.folder).isDirectory()) {
-        console.log(`Oops! Folder is not a real folder: ${options.folder}`);
+        console.log(`Oops! Folder is not a real folder: ${sanitize(options.folder)}`);
         process.exitCode = 4;
     } else {
         process.exitCode = checkFolder(options.folder);
