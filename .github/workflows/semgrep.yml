@@ -22,6 +22,7 @@ jobs:
   semgrep:
     name: semgrep/ci
     runs-on: ubuntu-latest
+    environment: development
     permissions:
       contents: read
     if: github.actor != 'dependabot[bot]'
