@@ -1,6 +1,6 @@
 {
     "name": "check-package-lock",
-    "version": "1.14.17",
+    "version": "1.14.18",
     "description": "Checks the package-lock.json file for insecure http:// links",
     "main": "index.js",
     "files": [
